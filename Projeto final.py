@@ -13,8 +13,8 @@ import math
 
 img_dir = path.join(path.dirname(__file__), 'img')
 
-WIDTH = 460
-HEIGHT = 600
+WIDTH = 640
+HEIGHT = 400
 FPS = 100
 
 BLACK = (0, 0, 0)
@@ -50,8 +50,15 @@ class Lenhador(pygame.sprite.Sprite):
          # Centraliza embaixo da tela.
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT - 10
+ 
+       
+#class Tronco(pygame.sprite.Sprite):
+    
+    
+    
+    
+    
         
-
 # Inicialização do Pygame.
 pygame.init()
 pygame.mixer.init()
@@ -65,7 +72,7 @@ pygame.display.set_caption("Lenhador")
 clock = pygame.time.Clock()
 
 # Carrega o fundo do jogo
-background = pygame.image.load(path.join(img_dir, 'fundo.jpg')).convert()
+background = pygame.image.load(path.join(img_dir, 'Fundo.png')).convert()
 background_rect = background.get_rect()
 
 
