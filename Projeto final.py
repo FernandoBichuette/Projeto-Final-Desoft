@@ -34,7 +34,7 @@ class Lenhador(pygame.sprite.Sprite):
         self.image = player_img
         
         # Diminuindo o tamanho da imagem.
-        self.image = pygame.transform.scale(player_img, (50, 100))
+        self.image = pygame.transform.scale(player_img, (50, 38))
         
         # Deixando transparente.
         self.image.set_colorkey(BLACK)
@@ -42,17 +42,15 @@ class Lenhador(pygame.sprite.Sprite):
         
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
-        
+        self.rect.right = WIDTH/2 - 30
+        self.rect.y = HEIGHT - 100
                        
         # Centraliza embaixo da tela.
         self.img_referencia = self.image
-<<<<<<< HEAD
     
-   
-    
-    
-=======
+    # Centraliza embaixo da tela.
         
+   
 class Galho(pygame.sprite.Sprite):
     
     def __init__(self):
@@ -76,11 +74,9 @@ class Galho(pygame.sprite.Sprite):
         
                        
         # Centraliza embaixo da tela.
-        self.img_referencia = self.image
-         
- 
->>>>>>> 4bf1f4d8477e5b1fa55e46106b8182019ce9659f
-       
+        self.img_referencia = self.image    
+
+
 class Tronco(pygame.sprite.Sprite):
         # Construtor da classe.
   def __init__(self):
@@ -93,11 +89,7 @@ class Tronco(pygame.sprite.Sprite):
         self.image = tronco_img
         
         # Diminuindo o tamanho da imagem.
-<<<<<<< HEAD
-        self.image = pygame.transform.scale(tronco_img, (50, 38))
-=======
-        self.image = pygame.transform.scale(player_img, (50, 380))
->>>>>>> 4bf1f4d8477e5b1fa55e46106b8182019ce9659f
+        self.image = pygame.transform.scale(tronco_img, (50, 300))
         
         # Deixando transparente.
         self.image.set_colorkey(BLACK)
@@ -138,7 +130,7 @@ background_rect = background.get_rect()
 # Cria uma nave. O construtor será chamado automaticamente.
 player = Lenhador()
 tronco = Tronco()
-galho = Galho()
+galho= Galho()
 # Cria um grupo de sprites e adiciona a nave.
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player,tronco,galho)
@@ -158,9 +150,9 @@ try:
                 running = False
     
     # Verifica se a tecla foi apertado 
-        #if event.type == pygame.KEYDOWN:
+      #  if event.type == pygame.KEYDOWN:
 
-         #   if event.type == pygame.K_RIGHT:
+       #     if event.type == pygame.K_RIGHT:
 
 
 
