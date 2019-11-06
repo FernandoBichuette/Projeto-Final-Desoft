@@ -47,13 +47,37 @@ class Lenhador(pygame.sprite.Sprite):
         # Centraliza embaixo da tela.
         self.img_referencia = self.image
         
+         
+ 
+       
+class Tronco(pygame.sprite.Sprite):
+        # Construtor da classe.
+  def __init__(self):
+        
+        # Construtor da classe pai (Sprite).
+        pygame.sprite.Sprite.__init__(self)
+        
+        # Carregando a imagem de fundo.
+        player_img = pygame.image.load(path.join(img_dir, "Tronco.jpg")).convert()
+        self.image = player_img
+        
+        # Diminuindo o tamanho da imagem.
+        self.image = pygame.transform.scale(player_img, (50, 38))
+        
+        # Deixando transparente.
+        self.image.set_colorkey(BLACK)
+        
+        
+        # Detalhes sobre o posicionamento.
+        self.rect = self.image.get_rect()
+        
+                       
+        # Centraliza embaixo da tela.
+        self.img_referencia = self.image
+        
          # Centraliza embaixo da tela.
         self.rect.centerx = WIDTH / 2
         self.rect.bottom = HEIGHT - 10
- 
-       
-#class Tronco(pygame.sprite.Sprite):
-    
     
     
     
@@ -78,10 +102,10 @@ background_rect = background.get_rect()
 
 # Cria uma nave. O construtor será chamado automaticamente.
 player = Lenhador()
-
+tronco = Tronco()
 # Cria um grupo de sprites e adiciona a nave.
 all_sprites = pygame.sprite.Group()
-all_sprites.add(player)
+all_sprites.add(player,tronco)
 
 try:
     running = True
