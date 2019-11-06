@@ -18,13 +18,13 @@ HEIGHT = 400
 FPS = 100
 
 BLACK = (0, 0, 0)
-
+WHITE = (255,255,255)
 
 
 class Lenhador(pygame.sprite.Sprite):
     
     # Construtor da classe.
-  def __init__(self):
+    def __init__(self):
         
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
@@ -34,7 +34,7 @@ class Lenhador(pygame.sprite.Sprite):
         self.image = player_img
         
         # Diminuindo o tamanho da imagem.
-        self.image = pygame.transform.scale(player_img, (50, 38))
+        self.image = pygame.transform.scale(player_img, (50, 100))
         
         # Deixando transparente.
         self.image.set_colorkey(BLACK)
@@ -47,8 +47,13 @@ class Lenhador(pygame.sprite.Sprite):
                        
         # Centraliza embaixo da tela.
         self.img_referencia = self.image
+
+        # Velocidade 
+        self.velocidade = 1
+
+    def update(self):
+        self.rect.x = self.velocidade
     
-    # Centraliza embaixo da tela.
         
    
 class Galho(pygame.sprite.Sprite):
@@ -150,10 +155,10 @@ try:
                 running = False
     
     # Verifica se a tecla foi apertado 
-      #  if event.type == pygame.KEYDOWN:
+        if event.type == pygame.KEYDOWN:
 
-       #     if event.type == pygame.K_RIGHT:
-
+            if event.type == pygame.K_RIGHT:
+                self.rect.x = -1
 
 
 
