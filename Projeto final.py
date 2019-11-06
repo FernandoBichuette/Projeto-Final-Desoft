@@ -46,9 +46,10 @@ class Lenhador(pygame.sprite.Sprite):
                        
         # Centraliza embaixo da tela.
         self.img_referencia = self.image
-        
-         
- 
+    
+   
+    
+    
        
 class Tronco(pygame.sprite.Sprite):
         # Construtor da classe.
@@ -58,11 +59,11 @@ class Tronco(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         
         # Carregando a imagem de fundo.
-        player_img = pygame.image.load(path.join(img_dir, "Tronco.jpg")).convert()
-        self.image = player_img
+        tronco_img = pygame.image.load(path.join(img_dir, "Tronco.jpg")).convert()
+        self.image = tronco_img
         
         # Diminuindo o tamanho da imagem.
-        self.image = pygame.transform.scale(player_img, (50, 38))
+        self.image = pygame.transform.scale(tronco_img, (50, 38))
         
         # Deixando transparente.
         self.image.set_colorkey(BLACK)
@@ -120,7 +121,17 @@ try:
             # Verifica se foi fechado.
             if event.type == pygame.QUIT:
                 running = False
-                
+    
+    # Verifica se a tecla foi apertado 
+        #if event.type == pygame.KEYDOWN:
+
+         #   if event.type == pygame.K_RIGHT:
+
+
+
+
+
+
          # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)
         screen.blit(background, background_rect)
