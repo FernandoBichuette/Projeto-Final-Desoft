@@ -34,6 +34,37 @@ class Lenhador(pygame.sprite.Sprite):
         self.image = player_img
         
         # Diminuindo o tamanho da imagem.
+        self.image = pygame.transform.scale(player_img, (50, 100))
+        
+        # Deixando transparente.
+        self.image.set_colorkey(BLACK)
+        
+        
+        # Detalhes sobre o posicionamento.
+        self.rect = self.image.get_rect()
+        
+                       
+        # Centraliza embaixo da tela.
+        self.img_referencia = self.image
+<<<<<<< HEAD
+    
+   
+    
+    
+=======
+        
+class Galho(pygame.sprite.Sprite):
+    
+    def __init__(self):
+        
+        # Construtor da classe pai (Sprite).
+        pygame.sprite.Sprite.__init__(self)
+        
+        # Carregando a imagem de fundo.
+        player_img = pygame.image.load(path.join(img_dir, "galho.png")).convert()
+        self.image = player_img
+        
+        # Diminuindo o tamanho da imagem.
         self.image = pygame.transform.scale(player_img, (50, 38))
         
         # Deixando transparente.
@@ -46,10 +77,9 @@ class Lenhador(pygame.sprite.Sprite):
                        
         # Centraliza embaixo da tela.
         self.img_referencia = self.image
-    
-   
-    
-    
+         
+ 
+>>>>>>> 4bf1f4d8477e5b1fa55e46106b8182019ce9659f
        
 class Tronco(pygame.sprite.Sprite):
         # Construtor da classe.
@@ -63,7 +93,11 @@ class Tronco(pygame.sprite.Sprite):
         self.image = tronco_img
         
         # Diminuindo o tamanho da imagem.
+<<<<<<< HEAD
         self.image = pygame.transform.scale(tronco_img, (50, 38))
+=======
+        self.image = pygame.transform.scale(player_img, (50, 380))
+>>>>>>> 4bf1f4d8477e5b1fa55e46106b8182019ce9659f
         
         # Deixando transparente.
         self.image.set_colorkey(BLACK)
@@ -104,9 +138,10 @@ background_rect = background.get_rect()
 # Cria uma nave. O construtor será chamado automaticamente.
 player = Lenhador()
 tronco = Tronco()
+galho = Galho()
 # Cria um grupo de sprites e adiciona a nave.
 all_sprites = pygame.sprite.Group()
-all_sprites.add(player,tronco)
+all_sprites.add(player,tronco,galho)
 
 try:
     running = True
