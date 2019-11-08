@@ -19,7 +19,7 @@ FPS = 100
 
 BLACK = (0, 0, 0)
 WHITE = (255,255,255)
-
+GRAY = (169, 169, 169)
 
 class Lenhador(pygame.sprite.Sprite):
     
@@ -30,7 +30,7 @@ class Lenhador(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         
         # Carregando a imagem de fundo.
-        player_img = pygame.image.load(path.join(img_dir, "Lenhador.jpg")).convert()
+        player_img = pygame.image.load(path.join(img_dir, "posicao1.png")).convert()
         self.image = player_img
         
         # Diminuindo o tamanho da imagem.
