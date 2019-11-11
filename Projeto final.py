@@ -75,7 +75,7 @@ class Lenhador1(pygame.sprite.Sprite):
         
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
-        self.rect.right = WIDTH/2 - 30
+        self.rect.right = WIDTH/2 - 50
         self.rect.y = HEIGHT - 100
                        
         # Centraliza embaixo da tela.
