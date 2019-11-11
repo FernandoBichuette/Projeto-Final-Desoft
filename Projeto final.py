@@ -85,7 +85,7 @@ class Galho(pygame.sprite.Sprite):
 
 class Tronco(pygame.sprite.Sprite):
         # Construtor da classe.
-  def __init__(self):
+  def __init__(self,x):
         
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
@@ -109,9 +109,10 @@ class Tronco(pygame.sprite.Sprite):
         self.img_referencia = self.image
         
          # Centraliza embaixo da tela.
-        self.rect.centerx = WIDTH / 2
+        
         self.rect.bottom = HEIGHT - 10
-    
+        self.rect.centerx = x 
+        
     
     
     
@@ -135,11 +136,12 @@ background_rect = background.get_rect()
 
 # Cria uma nave. O construtor será chamado automaticamente.
 player = Lenhador()
-tronco = Tronco()
+tronco1 = Tronco(160)
+tronco2 = Tronco(480)
 galho= Galho()
 # Cria um grupo de sprites e adiciona a nave.
 all_sprites = pygame.sprite.Group()
-all_sprites.add(player,tronco,galho)
+all_sprites.add(player,tronco1,tronco2,galho)
 
 try:
     running = True
