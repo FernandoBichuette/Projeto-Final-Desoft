@@ -68,7 +68,7 @@ class Galho(pygame.sprite.Sprite):
         self.image = player_img
         
         # Diminuindo o tamanho da imagem.
-        self.image = pygame.transform.scale(player_img, (50, 38))
+        self.image = pygame.transform.scale(player_img, (100,100))
         
         # Deixando transparente.
         self.image.set_colorkey(BLACK)
@@ -76,7 +76,8 @@ class Galho(pygame.sprite.Sprite):
         
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
-        
+        self.rect.right = WIDTH/2 - 20
+        self.rect.y = HEIGHT - 250
                        
         # Centraliza embaixo da tela.
         self.img_referencia = self.image    
