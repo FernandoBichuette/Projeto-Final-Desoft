@@ -45,7 +45,7 @@ class Lenhador(pygame.sprite.Sprite):
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
         self.rect.right = 600
-        self.rect.y = HEIGHT - 100
+        self.rect.y = HEIGHT-100
                        
         # Centraliza embaixo da tela.
         self.img_referencia = self.image
@@ -78,7 +78,7 @@ class Lenhador1(pygame.sprite.Sprite):
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
         self.rect.right = WIDTH/2 - 50
-        self.rect.y = HEIGHT - 100
+        self.rect.y = HEIGHT-100
                        
         # Centraliza embaixo da tela.
         self.img_referencia = self.image
@@ -110,8 +110,8 @@ class Galho(pygame.sprite.Sprite):
         
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
-        self.rect.x =distancia
         
+        self.rect.x = random.randint(distancia,distancia+30)
         self.rect.y = HEIGHT - 350
         self.speedy = 1               
         
@@ -123,7 +123,7 @@ class Galho(pygame.sprite.Sprite):
         # Se o galho passar do chão da tela, morre.
         if self.rect.bottom < 0:
             self.kill()
-        self.rect.x = random.randint(0, 400)
+        
 
         
 
