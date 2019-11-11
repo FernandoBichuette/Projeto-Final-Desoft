@@ -21,6 +21,8 @@ BLACK = (0, 0, 0)
 WHITE = (255,255,255)
 GRAY = (169, 169, 169)
 
+contador_de_vida=100
+
 class Lenhador(pygame.sprite.Sprite):
     
     # Construtor da classe.
@@ -86,11 +88,11 @@ class Lenhador1(pygame.sprite.Sprite):
 
     def update(self):
         self.rect.x = self.velocidade
-            
+        
    
 class Galho(pygame.sprite.Sprite):
     
-    def __init__(self):
+    def __init__(self,distancia):
         
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
@@ -108,12 +110,22 @@ class Galho(pygame.sprite.Sprite):
         
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
-        self.rect.right = WIDTH/2 - 20
-        self.rect.y = HEIGHT - 250
-                       
+        self.rect.x =distancia
+        
+        self.rect.y = HEIGHT - 350
+        self.speedy = 1               
+        
         # Centraliza embaixo da tela.
         self.img_referencia = self.image    
 
+    def update(self):
+        self.rect.y += self.speedy
+        # Se o galho passar do chão da tela, morre.
+        if self.rect.bottom < 0:
+            self.kill()
+        self.rect.x = random.randint(0, 400)
+
+        
 
 class Tronco(pygame.sprite.Sprite):
         # Construtor da classe.
@@ -171,10 +183,11 @@ player = Lenhador()
 player2 = Lenhador1()
 tronco1 = Tronco(160)
 tronco2 = Tronco(480)
-galho= Galho()
+galho1= Galho(360)
+galho2=Galho(40)
 # Cria um grupo de sprites e adiciona a nave.
 all_sprites = pygame.sprite.Group()
-all_sprites.add(player,player2,tronco1,tronco2,galho)
+all_sprites.add(player,player2,tronco1,tronco2,galho1,galho2)
 
 try:
     running = True
@@ -190,15 +203,16 @@ try:
             if event.type == pygame.QUIT:
                 running = False
     
-    # Verifica se a tecla foi apertado 
-        if event.type == pygame.KEYDOWN:
+            # Verifica se a tecla foi apertado 
+            if event.type == pygame.KEYDOWN:
 
-            if event.type == pygame.K_RIGHT:
-                self.rect.x = -1
-
-
+                if event.type == pygame.K_RIGHT:
+                    self.rect.x = -1
 
 
+
+        # Atualiza a acao de cada sprite.
+        all_sprites.update()
 
          # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)
