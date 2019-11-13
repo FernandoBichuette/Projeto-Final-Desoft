@@ -171,7 +171,8 @@ class Galho(pygame.sprite.Sprite):
         self.rect.y += self.speedy
         # Se o galho passar do chão da tela, morre.
         if self.rect.bottom > HEIGHT:
-            self.kill()   
+            self.kill()
+            
     
     
         
