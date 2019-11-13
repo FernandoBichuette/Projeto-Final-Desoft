@@ -129,17 +129,14 @@ class Galho(pygame.sprite.Sprite):
         
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
-        
-        
-        
-        
+            
         # Detalhes sobre o posicionamento.
         x=0
         y=1
         
         random.randint(x,y)
         
-        if random.randint(x,y) ==x:
+        if random.randint(x,y) == x:
             player_img = pygame.image.load(path.join(img_dir, "Esquerda.png")).convert()
             self.image = player_img
             # Diminuindo o tamanho da imagem.
@@ -148,8 +145,11 @@ class Galho(pygame.sprite.Sprite):
             # Deixando transparente.
             self.image.set_colorkey(BLACK)
             self.rect = self.image.get_rect()
+            self.rect.y = HEIGHT - 350
+
             self.rect.x = 40
-        else:
+        
+        if random.randint(x,y) == y :
             player_img = pygame.image.load(path.join(img_dir, "Direito.png")).convert()
             self.image = player_img
              # Diminuindo o tamanho da imagem.
@@ -158,9 +158,11 @@ class Galho(pygame.sprite.Sprite):
             # Deixando transparente.
             self.image.set_colorkey(BLACK)
             self.rect = self.image.get_rect()
-            self.rect.x = 67
+            self.rect.y = HEIGHT - 350
+            self.rect.x = 180
         
-        self.rect.y = HEIGHT - 350
+        
+        
         self.speedy = 1               
         
         # Centraliza embaixo da tela.
