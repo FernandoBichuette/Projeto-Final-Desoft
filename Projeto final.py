@@ -54,12 +54,9 @@ class Lenhador(pygame.sprite.Sprite):
         self.velocidade = 0
 
     def update(self):
-<<<<<<< HEAD
         pass
-=======
         self.rect.x += self.velocidade
     
->>>>>>> f257dbfb4589d2273cbdbdf559a64f57a7cf3d94
 class Lenhador1(pygame.sprite.Sprite):
     
     # Construtor da classe.
@@ -88,17 +85,13 @@ class Lenhador1(pygame.sprite.Sprite):
         self.img_referencia = self.image
 
         # Velocidade 
-<<<<<<< HEAD
-        self.velocidade = 50
 
-    def update(self):
-        pass
-=======
         self.velocidade = 0
+
+
 
     def update(self):
         self.rect.x += self.velocidade
->>>>>>> f257dbfb4589d2273cbdbdf559a64f57a7cf3d94
         
    
         
