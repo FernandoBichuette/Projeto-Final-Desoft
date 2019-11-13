@@ -125,26 +125,44 @@ class Tronco(pygame.sprite.Sprite):
 
 class Galho(pygame.sprite.Sprite):
     
-    def __init__(self,distancia):
+    def __init__(self):
         
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
-        
-        # Carregando a imagem de fundo.
-        player_img = pygame.image.load(path.join(img_dir, "galho.png")).convert()
-        self.image = player_img
-        
-        # Diminuindo o tamanho da imagem.
-        self.image = pygame.transform.scale(player_img, (100,100))
-        
-        # Deixando transparente.
-        self.image.set_colorkey(BLACK)
-        
-        
+            
         # Detalhes sobre o posicionamento.
-        self.rect = self.image.get_rect()
-        self.rect.x = random.randint(distancia,distancia+30)
-        self.rect.y = HEIGHT - 350
+        x=0
+        y=1
+        
+        random.randint(x,y)
+        
+        if random.randint(x,y) == x:
+            player_img = pygame.image.load(path.join(img_dir, "Esquerda.png")).convert()
+            self.image = player_img
+            # Diminuindo o tamanho da imagem.
+            self.image = pygame.transform.scale(player_img, (100,100))
+        
+            # Deixando transparente.
+            self.image.set_colorkey(BLACK)
+            self.rect = self.image.get_rect()
+            self.rect.y = HEIGHT - 350
+
+            self.rect.x = 40
+        
+        if random.randint(x,y) == y :
+            player_img = pygame.image.load(path.join(img_dir, "Direito.png")).convert()
+            self.image = player_img
+             # Diminuindo o tamanho da imagem.
+            self.image = pygame.transform.scale(player_img, (100,100))
+        
+            # Deixando transparente.
+            self.image.set_colorkey(BLACK)
+            self.rect = self.image.get_rect()
+            self.rect.y = HEIGHT - 350
+            self.rect.x = 180
+        
+        
+        
         self.speedy = 1               
         
         # Centraliza embaixo da tela.
@@ -180,8 +198,8 @@ player = Lenhador()
 player2 = Lenhador1()
 tronco1 = Tronco(160)
 tronco2 = Tronco(480)
-galho1= Galho(360)
-galho2=Galho(40)
+galho1= Galho()
+galho2=Galho()
 # Cria um grupo de sprites e adiciona a nave.
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player,player2,tronco1,tronco2,galho1,galho2)
