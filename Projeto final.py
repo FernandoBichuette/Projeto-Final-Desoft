@@ -44,17 +44,17 @@ class Lenhador(pygame.sprite.Sprite):
         
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
-        self.rect.right = 600
+        self.rect.x = 500
         self.rect.y = HEIGHT-100
                        
         # Centraliza embaixo da tela.
         self.img_referencia = self.image
 
         # Velocidade 
-        self.velocidade = 1
+        self.velocidade = 0
 
     def update(self):
-        self.rect.x = self.velocidade
+        self.rect.x += self.velocidade
     
 class Lenhador1(pygame.sprite.Sprite):
     
@@ -77,17 +77,17 @@ class Lenhador1(pygame.sprite.Sprite):
         
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
-        self.rect.right = WIDTH/2 - 50
+        self.rect.x = 65
         self.rect.y = HEIGHT-100
                        
         # Centraliza embaixo da tela.
         self.img_referencia = self.image
 
         # Velocidade 
-        self.velocidade = 1
+        self.velocidade = 0
 
     def update(self):
-        self.rect.x = self.velocidade
+        self.rect.x += self.velocidade
         
    
         
