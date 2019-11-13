@@ -129,10 +129,6 @@ class Galho(pygame.sprite.Sprite):
         
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
-            
-        # Detalhes sobre o posicionamento.
-        
-        
         
         
         if random.randint(0,1) == 0:
@@ -148,7 +144,7 @@ class Galho(pygame.sprite.Sprite):
 
             self.rect.x = 40+x
         
-        else :
+        else:
             player_img = pygame.image.load(path.join(img_dir, "Direito.png")).convert()
             self.image = player_img
              # Diminuindo o tamanho da imagem.
