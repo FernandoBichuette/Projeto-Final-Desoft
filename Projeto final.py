@@ -125,18 +125,17 @@ class Tronco(pygame.sprite.Sprite):
 
 class Galho(pygame.sprite.Sprite):
     
-    def __init__(self):
+    def __init__(self,x):
         
         # Construtor da classe pai (Sprite).
         pygame.sprite.Sprite.__init__(self)
             
         # Detalhes sobre o posicionamento.
-        x=0
-        y=1
         
-        random.randint(x,y)
         
-        if random.randint(x,y) == x:
+        
+        
+        if random.randint(0,1) == 0:
             player_img = pygame.image.load(path.join(img_dir, "Esquerda.png")).convert()
             self.image = player_img
             # Diminuindo o tamanho da imagem.
@@ -145,11 +144,11 @@ class Galho(pygame.sprite.Sprite):
             # Deixando transparente.
             self.image.set_colorkey(BLACK)
             self.rect = self.image.get_rect()
-            self.rect.y = HEIGHT - 350
+            
 
-            self.rect.x = 40
+            self.rect.x = 40+x
         
-        if random.randint(x,y) == y :
+        else :
             player_img = pygame.image.load(path.join(img_dir, "Direito.png")).convert()
             self.image = player_img
              # Diminuindo o tamanho da imagem.
@@ -158,13 +157,13 @@ class Galho(pygame.sprite.Sprite):
             # Deixando transparente.
             self.image.set_colorkey(BLACK)
             self.rect = self.image.get_rect()
-            self.rect.y = HEIGHT - 350
-            self.rect.x = 180
+            
+            self.rect.x = 180+x
         
-        
-        
-        self.speedy = 1               
-        
+               
+        self.speedy = 1     
+
+        self.rect.y = HEIGHT - 350
         # Centraliza embaixo da tela.
         self.img_referencia = self.image    
 
@@ -198,8 +197,8 @@ player = Lenhador()
 player2 = Lenhador1()
 tronco1 = Tronco(160)
 tronco2 = Tronco(480)
-galho1= Galho()
-galho2=Galho()
+galho1= Galho(0)
+galho2=Galho(320)
 # Cria um grupo de sprites e adiciona a nave.
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player,player2,tronco1,tronco2,galho1,galho2)
