@@ -90,41 +90,6 @@ class Lenhador1(pygame.sprite.Sprite):
         self.rect.x = self.velocidade
         
    
-class Galho(pygame.sprite.Sprite):
-    
-    def __init__(self,distancia):
-        
-        # Construtor da classe pai (Sprite).
-        pygame.sprite.Sprite.__init__(self)
-        
-        # Carregando a imagem de fundo.
-        player_img = pygame.image.load(path.join(img_dir, "galho.png")).convert()
-        self.image = player_img
-        
-        # Diminuindo o tamanho da imagem.
-        self.image = pygame.transform.scale(player_img, (100,100))
-        
-        # Deixando transparente.
-        self.image.set_colorkey(BLACK)
-        
-        
-        # Detalhes sobre o posicionamento.
-        self.rect = self.image.get_rect()
-        
-        self.rect.x = random.randint(distancia,distancia+30)
-        self.rect.y = HEIGHT - 350
-        self.speedy = 1               
-        
-        # Centraliza embaixo da tela.
-        self.img_referencia = self.image    
-
-    def update(self):
-        self.rect.y += self.speedy
-        # Se o galho passar do chão da tela, morre.
-        if self.rect.bottom < 0:
-            self.kill()
-        
-
         
 
 class Tronco(pygame.sprite.Sprite):
@@ -157,7 +122,39 @@ class Tronco(pygame.sprite.Sprite):
         self.rect.bottom = HEIGHT - 10
         self.rect.centerx = x 
         
+
+class Galho(pygame.sprite.Sprite):
     
+    def __init__(self,distancia):
+        
+        # Construtor da classe pai (Sprite).
+        pygame.sprite.Sprite.__init__(self)
+        
+        # Carregando a imagem de fundo.
+        player_img = pygame.image.load(path.join(img_dir, "galho.png")).convert()
+        self.image = player_img
+        
+        # Diminuindo o tamanho da imagem.
+        self.image = pygame.transform.scale(player_img, (100,100))
+        
+        # Deixando transparente.
+        self.image.set_colorkey(BLACK)
+        
+        
+        # Detalhes sobre o posicionamento.
+        self.rect = self.image.get_rect()
+        self.rect.x = random.randint(distancia,distancia+30)
+        self.rect.y = HEIGHT - 350
+        self.speedy = 1               
+        
+        # Centraliza embaixo da tela.
+        self.img_referencia = self.image    
+
+    def update(self):
+        self.rect.y += self.speedy
+        # Se o galho passar do chão da tela, morre.
+        if self.rect.bottom > HEIGHT:
+            self.kill()   
     
     
         
