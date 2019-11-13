@@ -54,8 +54,12 @@ class Lenhador(pygame.sprite.Sprite):
         self.velocidade = 0
 
     def update(self):
+<<<<<<< HEAD
+        pass
+=======
         self.rect.x += self.velocidade
     
+>>>>>>> f257dbfb4589d2273cbdbdf559a64f57a7cf3d94
 class Lenhador1(pygame.sprite.Sprite):
     
     # Construtor da classe.
@@ -84,10 +88,17 @@ class Lenhador1(pygame.sprite.Sprite):
         self.img_referencia = self.image
 
         # Velocidade 
+<<<<<<< HEAD
+        self.velocidade = 50
+
+    def update(self):
+        pass
+=======
         self.velocidade = 0
 
     def update(self):
         self.rect.x += self.velocidade
+>>>>>>> f257dbfb4589d2273cbdbdf559a64f57a7cf3d94
         
    
         
@@ -208,7 +219,7 @@ try:
         clock.tick(FPS)
         
         # Processa os eventos (mouse, teclado, botão, etc).
-        for event in pygame.event.get():
+        for event in pygame.event.get(): 
             
             # Verifica se foi fechado.
             if event.type == pygame.QUIT:
@@ -217,8 +228,11 @@ try:
             # Verifica se a tecla foi apertado 
             if event.type == pygame.KEYDOWN:
 
-                if event.type == pygame.K_RIGHT:
-                    self.rect.x = -1
+                # Dependendo da tecla, altera a velocidade.
+                if event.key == pygame.K_LEFT:
+                    player.rect.x = WIDTH/2 +10
+                if event.key == pygame.K_RIGHT:
+                    player.rect.x = 600
 
 
 
