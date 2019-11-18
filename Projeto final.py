@@ -276,7 +276,10 @@ try:
                     player.speedx = 0
                 if event.key == pygame.K_d:
                     player.speedx = 0
-
+        
+        hits = pygame.sprite.spritecollide(player, galhos, False, pygame.sprite.collide_rect)
+        if hits:
+            pygame.quit()
 
         # Atualiza a acao de cada sprite.
         all_sprites.update()
