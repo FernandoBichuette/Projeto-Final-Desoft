@@ -21,7 +21,8 @@ BLACK = (0, 0, 0)
 WHITE = (255,255,255)
 GRAY = (169, 169, 169)
 
-contador_de_vida=100
+TAXA_VIDA = 200
+SAUDE = 100
 
 class Lenhador(pygame.sprite.Sprite):
     
@@ -56,7 +57,32 @@ class Lenhador(pygame.sprite.Sprite):
     def update(self):
         pass
         self.rect.x += self.velocidade
-    
+
+
+class Barra_de_vida(pygame.sprite.Sprite):
+    def __init__(self,distancia):
+        pygame.sprite.Sprite.__init__(self)
+
+        self.SAUDE = SAUDE
+        self.image = pygame.image.load(path.join(img_dir,'Barra de vida.png')).convert()
+        self.image = pygame.transform.scale(self.image,(self.SAUDE,20))
+        self.image.set_colorkey(BLACK)
+
+        self.rect = self.image.get_rect()
+        self.rect.x = distancia
+        self.rect.y = HEIGHT - 350
+
+        self.regen = 1
+
+    def update(self):
+        if self.SAUDE >= 100:
+            self.regen = -5
+        self.SAUDE += self.regen
+        if self.SAUDE < 0:
+            self.SAUDE = 0
+        self.image = pygame.transform.scale(self.image,(self.SAUDE,20))
+        self.regen = 0
+
 
 class Tronco(pygame.sprite.Sprite):
         # Construtor da classe.
@@ -156,12 +182,14 @@ background_rect = background.get_rect()
 
 
 
-# Cria uma nave. O construtor será chamado automaticamente.
+# Cria as sprites. O construtor será chamado automaticamente.
 
 player_arvore_1 = Lenhador(65)
 player_arvore_2 = Lenhador(500)
 tronco1 = Tronco(160)
 tronco2 = Tronco(480)
+vida_player_1 = Barra_de_vida(110)
+vida_player_2 = Barra_de_vida(430)
 
 # Cria um grupo para os galhos e player
 galhos = pygame.sprite.Group()
@@ -169,7 +197,7 @@ players = pygame.sprite.Group()
 
 # Cria um grupo de sprites e adiciona a nave.
 all_sprites = pygame.sprite.Group()
-all_sprites.add(player_arvore_1,player_arvore_2,tronco1,tronco2)
+all_sprites.add(player_arvore_1,player_arvore_2,tronco1,tronco2,vida_player_1,vida_player_2)
 
 
 try:
@@ -178,7 +206,8 @@ try:
         
         # Ajusta a velocidade do jogo.
         clock.tick(FPS)
-        
+        TEMPO = pygame.time.get_ticks()
+
         # Processa os eventos (mouse, teclado, botão, etc).
         for event in pygame.event.get(): 
             
@@ -192,21 +221,21 @@ try:
                 # Dependendo da tecla, altera a velocidade.
                 if event.key == pygame.K_LEFT:
                     
-                    player_arvore_2.image = pygame.image.load(path.join(img_dir,'posicao3-Invertido.png')).convert()
+                    player_arvore_2.image = pygame.image.load(path.join(img_dir,'posicao3.png')).convert()
                     player_arvore_2.image = pygame.transform.scale(player_arvore_2.image,(100, 120))
                     player_arvore_2.image.set_colorkey(BLACK)
 
                     galho = Galho(tronco2.rect.x)
                     all_sprites.add(galho)
                     galhos.add(galho)
-                    
+
                     player_arvore_2.rect.x = 350
-                    galho.speedy = 1  
+                    galho.speedy = 1
                    
 
                 if event.key == pygame.K_RIGHT:
 
-                    player_arvore_2.image = pygame.image.load(path.join(img_dir,'posicao3.png')).convert()
+                    player_arvore_2.image = pygame.image.load(path.join(img_dir,'posicao3-Invertido.png')).convert()
                     player_arvore_2.image = pygame.transform.scale(player_arvore_2.image,(100, 120))
                     player_arvore_2.image.set_colorkey(BLACK)
 
@@ -218,7 +247,11 @@ try:
                     galho.speedy = 1  
 
                 if event.key == pygame.K_a:
-         
+                    
+                    player_arvore_1.image = pygame.image.load(path.join(img_dir,'posicao3.png')).convert()
+                    player_arvore_1.image = pygame.transform.scale(player_arvore_1.image,(100, 120))
+                    player_arvore_1.image.set_colorkey(BLACK)
+
                     galho = Galho(tronco1.rect.x)
                     all_sprites.add(galho)
                     galhos.add(galho)
@@ -227,6 +260,10 @@ try:
                     galho.speedy = 1
 
                 if event.key == pygame.K_d:
+
+                    player_arvore_1.image = pygame.image.load(path.join(img_dir,'posicao3-Invertido.png')).convert()
+                    player_arvore_1.image = pygame.transform.scale(player_arvore_1.image,(100, 120))
+                    player_arvore_1.image.set_colorkey(BLACK)
 
                     galho = Galho(tronco1.rect.x)
                     all_sprites.add(galho)
@@ -243,8 +280,9 @@ try:
                     player_arvore_2.image = pygame.image.load(path.join(img_dir,'posicao1 -Invertida.png')).convert()
                     player_arvore_2.image = pygame.transform.scale(player_arvore_2.image,(50, 100))
                     player_arvore_2.image.set_colorkey(BLACK)
-                    player_arvore_2.speedx = 0
 
+                    player_arvore_2.speedx = 0
+                    
                 if event.key == pygame.K_RIGHT:
 
                     player_arvore_2.image = pygame.image.load(path.join(img_dir,'posicao1.png')).convert()
@@ -252,6 +290,7 @@ try:
                     player_arvore_2.image.set_colorkey(BLACK)
                     
                     player_arvore_2.speedx = 0
+                    
 
                 if event.key == pygame.K_a:
 
@@ -260,6 +299,7 @@ try:
                     player_arvore_1.image.set_colorkey(BLACK)
 
                     player_arvore_1.speedx = 0
+                    
 
                 if event.key == pygame.K_d:
 
@@ -268,6 +308,7 @@ try:
                     player_arvore_1.image.set_colorkey(BLACK)
 
                     player_arvore_1.speedx = 0
+                    
         
         
 
