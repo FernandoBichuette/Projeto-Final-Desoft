@@ -85,11 +85,20 @@ class Lenhador1(pygame.sprite.Sprite):
         self.img_referencia = self.image
 
         # Velocidade 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1043fea56d2e64cb0e81320088cff3f4b9ad147e
         self.velocidade = 0
+
+
 
     def update(self):
         self.rect.x += self.velocidade
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1043fea56d2e64cb0e81320088cff3f4b9ad147e
         
    
 class Tronco(pygame.sprite.Sprite):
