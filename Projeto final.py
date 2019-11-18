@@ -88,6 +88,7 @@ class Lenhador1(pygame.sprite.Sprite):
         self.velocidade = 0
 
 
+
     def update(self):
         self.rect.x += self.velocidade
 
@@ -141,7 +142,7 @@ class Galho(pygame.sprite.Sprite):
             self.rect = self.image.get_rect()
             
 
-            self.rect.x = 40+x
+            self.rect.x = x - 100
         
         else:
             player_img = pygame.image.load(path.join(img_dir, "Direito.png")).convert()
@@ -153,7 +154,7 @@ class Galho(pygame.sprite.Sprite):
             self.image.set_colorkey(BLACK)
             self.rect = self.image.get_rect()
             
-            self.rect.x = 180+x
+            self.rect.x = x + 40
         
                
         self.speedy = 0     
@@ -168,8 +169,8 @@ class Galho(pygame.sprite.Sprite):
         if self.rect.bottom > HEIGHT:
             self.kill()
             
-    
-    
+
+
         
 # Inicialização do Pygame.
 pygame.init()
@@ -188,26 +189,27 @@ background = pygame.image.load(path.join(img_dir, 'Fundo.png')).convert()
 background_rect = background.get_rect()
 
 
+
 # Cria uma nave. O construtor será chamado automaticamente.
 player = Lenhador()
 player2 = Lenhador1()
 tronco1 = Tronco(160)
 tronco2 = Tronco(480)
-galho1= Galho(0)
-galho2=Galho(320)
 
+# Cria um grupo para os galhos e player
 galhos = pygame.sprite.Group()
+players = pygame.sprite.Group()
 
 # Cria um grupo de sprites e adiciona a nave.
 all_sprites = pygame.sprite.Group()
-all_sprites.add(player,player2,tronco1,tronco2,galho1,galho2)
+all_sprites.add(player,player2,tronco1,tronco2)
 
-"""
-for i in range(8):
-    galho = Galho(0)
-    all_sprites.add(galho)
-    galhos.add(galho)
-"""
+
+# for i in range(8):
+#     ga = Galho()
+#     all_sprites.add(ga)
+#     galhos.add(ga)
+
 
 try:
     running = True
@@ -228,34 +230,64 @@ try:
 
                 # Dependendo da tecla, altera a velocidade.
                 if event.key == pygame.K_LEFT:
-
-                    galho2 = Galho(player.rect.x)
-                    all_sprites.add(galho2)
-                    galhos.add(galho2)
+                    """
+                    player.image = pygame.image.load(path.join(img_dir,'posicao3.png')).convert_alpha()
+                    player.image = pygame.transform.scale(player.image,(50, 100))
+                    player.image.set_colorkey(BLACK)
+"""
+                    galho = Galho(tronco2.rect.x)
+                    all_sprites.add(galho)
+                    galhos.add(galho)
                     
                     player.rect.x = 350
-                    galho2.speedy = 1  
+                    galho.speedy = 1  
                    
 
                 if event.key == pygame.K_RIGHT:
 
-                    galho2 = Galho(player.rect.x)
-                    all_sprites.add(galho2)
-                    galhos.add(galho2)
+                    player.image = pygame.image.load(path.join(img_dir,'posicao3.png')).convert_alpha()
+                    player.image = pygame.transform.scale(player.image,(50, 100))
+                    player.image.set_colorkey(BLACK)
+
+                    galho = Galho(tronco2.rect.x)
+                    all_sprites.add(galho)
+                    galhos.add(galho)
 
                     player.rect.x = 510
-                    galho2.speedy = 1  
+                    galho.speedy = 1  
 
                 if event.key == pygame.K_a:
+                    
                     player2.rect.x = 30
                     galho1.speedy = 1
 
                 if event.key == pygame.K_d:
                     player2.rect.x= 190
                     galho1.speedy = 1
+            
+            # Verifica se soltou alguma tecla.
+            if event.type == pygame.KEYUP:
+                # Dependendo da tecla, altera a velocidade.
+                if event.key == pygame.K_LEFT:
+                    player.speedx = 0
+                if event.key == pygame.K_RIGHT:
+                    player.speedx = 0
+                if event.key == pygame.K_a:
+                    player.speedx = 0
+                if event.key == pygame.K_d:
+                    player.speedx = 0
+
 
         # Atualiza a acao de cada sprite.
         all_sprites.update()
+
+        # Verifica se houve colisão entre tiro e meteoro
+        hits = pygame.sprite.groupcollide(players, galhos, True, True)
+        for hit in hits: # Pode haver mais de um
+            # O meteoro e destruido e precisa ser recriado
+            ga = Galho()
+            all_sprites.add(ga)
+            galhos.add(ga)
 
          # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)
