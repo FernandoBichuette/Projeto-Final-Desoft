@@ -5,7 +5,7 @@ Created on Wed Oct 30 14:33:40 2019
 @author: Fernando
 """
 
-import pygame 
+import pygame as pygame
 import random
 import time
 from os import path
@@ -216,6 +216,7 @@ all_sprites.add(player_arvore_1,player_arvore_2,tronco1,tronco2,vida_player_1,vi
 
 try:
     score=0
+    score1=0
     running = True
     while running:
         
@@ -337,7 +338,7 @@ try:
 
         hits = pygame.sprite.spritecollide(player_arvore_2, galhos, False, pygame.sprite.collide_mask)
         if hits:
-            player_arvore_2.kill()
+            score1+=1
         
 
          # A cada loop, redesenha o fundo e os sprites
@@ -347,11 +348,14 @@ try:
         
        
         # Desenha o score
-        text_surface = score_font.render("{:08d}".format(score), True, YELLOW)
-        text_rect = text_surface.get_rect()
-        text_rect.midtop = (WIDTH / 2,  10)
-        screen.blit(text_surface, text_rect)
-        
+        text_surface_arvore1 = score_font.render("{:02d}".format(score), True, YELLOW)
+        text_surface_arvore2 = score_font.render("{:02d}".format(score1), True, YELLOW)
+        text_rect1 = text_surface_arvore1.get_rect()
+        text_rect2 = text_surface_arvore2.get_rect()
+        text_rect1.midtop = (160,  10)
+        text_rect2.midtop = (480,  10)
+        screen.blit(text_surface_arvore1, text_rect1)
+        screen.blit(text_surface_arvore2, text_rect2)
 
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()
