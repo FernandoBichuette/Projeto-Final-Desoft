@@ -12,6 +12,7 @@ from os import path
 import math
 
 img_dir = path.join(path.dirname(__file__), 'img')
+fnt_dir = path.join(path.dirname(__file__), 'font')
 
 WIDTH = 640
 HEIGHT = 400
@@ -20,6 +21,7 @@ FPS = 100
 BLACK = (0, 0, 0)
 WHITE = (255,255,255)
 GRAY = (169, 169, 169)
+YELLOW = (255, 255, 0)
 
 TAXA_VIDA = 200
 SAUDE = 100
@@ -50,6 +52,9 @@ class Lenhador(pygame.sprite.Sprite):
                        
         # Centraliza embaixo da tela.
         self.img_referencia = self.image
+
+        # Colisor 
+        self.mask = pygame.mask.from_surface(self.image)
 
         # Velocidade 
         self.velocidade = 0
@@ -124,10 +129,10 @@ class Galho(pygame.sprite.Sprite):
         
         
         if random.randint(0,1) == 0:
-            player_img = pygame.image.load(path.join(img_dir, "Esquerda.png")).convert()
-            self.image = player_img
+            galho_img = pygame.image.load(path.join(img_dir, "Esquerda.png")).convert()
+            self.image = galho_img
             # Diminuindo o tamanho da imagem.
-            self.image = pygame.transform.scale(player_img, (100,100))
+            self.image = pygame.transform.scale(galho_img, (100,100))
         
             # Deixando transparente.
             self.image.set_colorkey(BLACK)
@@ -137,10 +142,10 @@ class Galho(pygame.sprite.Sprite):
             self.rect.x = x - 100
         
         else:
-            player_img = pygame.image.load(path.join(img_dir, "Direito.png")).convert()
-            self.image = player_img
+            galho_img = pygame.image.load(path.join(img_dir, "Direito.png")).convert()
+            self.image = galho_img
              # Diminuindo o tamanho da imagem.
-            self.image = pygame.transform.scale(player_img, (100,100))
+            self.image = pygame.transform.scale(galho_img, (100,100))
         
             # Deixando transparente.
             self.image.set_colorkey(BLACK)
@@ -160,7 +165,11 @@ class Galho(pygame.sprite.Sprite):
         # Se o galho passar do chão da tela, morre.
         if self.rect.bottom > HEIGHT:
             self.kill()
-            
+
+def load_assets(img_dir, fnt_dir):
+    assets = {}
+    assets["score_font"] = pygame.font.Font(path.join(fnt_dir, "PressStart2P.ttf"), 28)
+    return assets       
 
 
         
@@ -180,7 +189,11 @@ clock = pygame.time.Clock()
 background = pygame.image.load(path.join(img_dir, 'Fundo.png')).convert()
 background_rect = background.get_rect()
 
+# Carrega todos os assets uma vez só e guarda em um dicionário
+assets = load_assets(img_dir, fnt_dir)
 
+# Carrega a fonte para desenhar o score.
+score_font = assets["score_font"]
 
 # Cria as sprites. O construtor será chamado automaticamente.
 
@@ -195,12 +208,14 @@ vida_player_2 = Barra_de_vida(430)
 galhos = pygame.sprite.Group()
 players = pygame.sprite.Group()
 
+
 # Cria um grupo de sprites e adiciona a nave.
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player_arvore_1,player_arvore_2,tronco1,tronco2,vida_player_1,vida_player_2)
 
 
 try:
+    score=0
     running = True
     while running:
         
@@ -277,7 +292,7 @@ try:
                 # Dependendo da tecla, altera a velocidade.
                 if event.key == pygame.K_LEFT:
 
-                    player_arvore_2.image = pygame.image.load(path.join(img_dir,'posicao1 -Invertida.png')).convert()
+                    player_arvore_2.image = pygame.image.load(path.join(img_dir,'posicao1-Invertida.png')).convert()
                     player_arvore_2.image = pygame.transform.scale(player_arvore_2.image,(50, 100))
                     player_arvore_2.image.set_colorkey(BLACK)
 
@@ -303,7 +318,7 @@ try:
 
                 if event.key == pygame.K_d:
 
-                    player_arvore_1.image = pygame.image.load(path.join(img_dir,'posicao1 -Invertida.png')).convert()
+                    player_arvore_1.image = pygame.image.load(path.join(img_dir,'posicao1-Invertida.png')).convert()
                     player_arvore_1.image = pygame.transform.scale(player_arvore_1.image,(50, 100))
                     player_arvore_1.image.set_colorkey(BLACK)
 
@@ -316,18 +331,28 @@ try:
         all_sprites.update()
 
         # Verifica se houve colisão entre tiro e meteoro
-        hits = pygame.sprite.groupcollide(players, galhos, True, True,)
-        for hit in hits: # Pode haver mais de um
-            # O meteoro e destruido e precisa ser recriado
-            ga = Galho()
-            all_sprites.add(ga)
-            galhos.add(ga)
+        hits = pygame.sprite.spritecollide(player_arvore_1, galhos, False, pygame.sprite.collide_mask)
+        if hits:
+            score+=1
+
+        hits = pygame.sprite.spritecollide(player_arvore_2, galhos, False, pygame.sprite.collide_mask)
+        if hits:
+            player_arvore_2.kill()
+        
 
          # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)
         screen.blit(background, background_rect)
         all_sprites.draw(screen)
         
+       
+        # Desenha o score
+        text_surface = score_font.render("{:08d}".format(score), True, YELLOW)
+        text_rect = text_surface.get_rect()
+        text_rect.midtop = (WIDTH / 2,  10)
+        screen.blit(text_surface, text_rect)
+        
+
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()
 
