@@ -54,12 +54,9 @@ class Lenhador(pygame.sprite.Sprite):
         self.velocidade = 0
 
     def update(self):
-<<<<<<< HEAD
         pass
-=======
         self.rect.x += self.velocidade
     
->>>>>>> f257dbfb4589d2273cbdbdf559a64f57a7cf3d94
 class Lenhador1(pygame.sprite.Sprite):
     
     # Construtor da classe.
@@ -88,21 +85,13 @@ class Lenhador1(pygame.sprite.Sprite):
         self.img_referencia = self.image
 
         # Velocidade 
-<<<<<<< HEAD
-        self.velocidade = 50
-
-    def update(self):
-        pass
-=======
         self.velocidade = 0
 
     def update(self):
         self.rect.x += self.velocidade
->>>>>>> f257dbfb4589d2273cbdbdf559a64f57a7cf3d94
+
         
    
-        
-
 class Tronco(pygame.sprite.Sprite):
         # Construtor da classe.
   def __init__(self,x):
@@ -119,7 +108,7 @@ class Tronco(pygame.sprite.Sprite):
         
         # Deixando transparente.
         self.image.set_colorkey(BLACK)
-        
+         
         
         # Detalhes sobre o posicionamento.
         self.rect = self.image.get_rect()
@@ -168,7 +157,7 @@ class Galho(pygame.sprite.Sprite):
             self.rect.x = 180+x
         
                
-        self.speedy = 1     
+        self.speedy = 0     
 
         self.rect.y = HEIGHT - 350
         # Centraliza embaixo da tela.
@@ -207,9 +196,19 @@ tronco1 = Tronco(160)
 tronco2 = Tronco(480)
 galho1= Galho(0)
 galho2=Galho(320)
+
+galhos = pygame.sprite.Group()
+
 # Cria um grupo de sprites e adiciona a nave.
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player,player2,tronco1,tronco2,galho1,galho2)
+
+"""
+for i in range(8):
+    galho = Galho(0)
+    all_sprites.add(galho)
+    galhos.add(galho)
+"""
 
 try:
     running = True
@@ -230,11 +229,31 @@ try:
 
                 # Dependendo da tecla, altera a velocidade.
                 if event.key == pygame.K_LEFT:
-                    player.rect.x = WIDTH/2 +10
+
+                    galho2 = Galho(player.rect.x)
+                    all_sprites.add(galho2)
+                    galhos.add(galho2)
+                    
+                    player.rect.x = 350
+                    galho2.speedy = 1  
+                   
+
                 if event.key == pygame.K_RIGHT:
-                    player.rect.x = 600
 
+                    galho2 = Galho(player.rect.x)
+                    all_sprites.add(galho2)
+                    galhos.add(galho2)
+                    
+                    player.rect.x = 510
+                    galho2.speedy = 1  
 
+                if event.key == pygame.K_a:
+                    player2.rect.x = 30
+                    galho1.speedy = 1
+
+                if event.key == pygame.K_d:
+                    player2.rect.x= 190
+                    galho1.speedy = 1
 
         # Atualiza a acao de cada sprite.
         all_sprites.update()
