@@ -22,6 +22,7 @@ BLACK = (0, 0, 0)
 WHITE = (255,255,255)
 GRAY = (169, 169, 169)
 YELLOW = (255, 255, 0)
+RED = (255, 0, 0)
 
 TAXA_VIDA = 200
 SAUDE = 100
@@ -59,9 +60,14 @@ class Lenhador(pygame.sprite.Sprite):
         # Velocidade 
         self.velocidade = 0
 
+        #Pontos
+        self.score=0
+        self.pontos=0
+
     def update(self):
         pass
         self.rect.x += self.velocidade
+        self.pontos+=self.score
 
 
 class Barra_de_vida(pygame.sprite.Sprite):
@@ -201,93 +207,104 @@ player_arvore_1 = Lenhador(65)
 player_arvore_2 = Lenhador(500)
 tronco1 = Tronco(160)
 tronco2 = Tronco(480)
-vida_player_1 = Barra_de_vida(110)
-vida_player_2 = Barra_de_vida(430)
+
+#barra de vida
+#vida_player_1 = Barra_de_vida(110)
+#vida_player_2 = Barra_de_vida(430)
 
 # Cria um grupo para os galhos e player
 galhos = pygame.sprite.Group()
-players = pygame.sprite.Group()
 
+players = pygame.sprite.Group()
+players.add(player_arvore_1,player_arvore_2)
 
 # Cria um grupo de sprites e adiciona a nave.
 all_sprites = pygame.sprite.Group()
-all_sprites.add(player_arvore_1,player_arvore_2,tronco1,tronco2,vida_player_1,vida_player_2)
+all_sprites.add(player_arvore_1,player_arvore_2,tronco1,tronco2)
 
 
 try:
+
     score_player1=0
     score_player2=0
     
-    running = True
-    while running:
+    vida_player_1 = 3
+    vida_player_2 = 3
+
+    PLAYING = 0
+    EXPLODING = 1
+    DONE = 2
+
+    state = PLAYING
+    while state != DONE:
         
         # Ajusta a velocidade do jogo.
         clock.tick(FPS)
-        TEMPO = pygame.time.get_ticks()
+        
+        if state == PLAYING:
+            # Processa os eventos (mouse, teclado, botão, etc).
+            for event in pygame.event.get(): 
+                
+                # Verifica se foi fechado.
+                if event.type == pygame.QUIT:
+                    running = False
+        
+                # Verifica se a tecla foi apertado 
+                if event.type == pygame.KEYDOWN:
 
-        # Processa os eventos (mouse, teclado, botão, etc).
-        for event in pygame.event.get(): 
-            
-            # Verifica se foi fechado.
-            if event.type == pygame.QUIT:
-                running = False
-    
-            # Verifica se a tecla foi apertado 
-            if event.type == pygame.KEYDOWN:
+                    # Dependendo da tecla, altera a velocidade.
+                    if event.key == pygame.K_LEFT:
+                        
+                        player_arvore_2.image = pygame.image.load(path.join(img_dir,'posicao3.png')).convert()
+                        player_arvore_2.image = pygame.transform.scale(player_arvore_2.image,(100, 120))
+                        player_arvore_2.image.set_colorkey(BLACK)
 
-                # Dependendo da tecla, altera a velocidade.
-                if event.key == pygame.K_LEFT:
+                        galho = Galho(tronco2.rect.x)
+                        all_sprites.add(galho)
+                        galhos.add(galho)
+
+                        player_arvore_2.rect.x = 350
+                        galho.speedy = 1
                     
-                    player_arvore_2.image = pygame.image.load(path.join(img_dir,'posicao3.png')).convert()
-                    player_arvore_2.image = pygame.transform.scale(player_arvore_2.image,(100, 120))
-                    player_arvore_2.image.set_colorkey(BLACK)
 
-                    galho = Galho(tronco2.rect.x)
-                    all_sprites.add(galho)
-                    galhos.add(galho)
+                    if event.key == pygame.K_RIGHT:
 
-                    player_arvore_2.rect.x = 350
-                    galho.speedy = 1
-                   
+                        player_arvore_2.image = pygame.image.load(path.join(img_dir,'posicao3-Invertido.png')).convert()
+                        player_arvore_2.image = pygame.transform.scale(player_arvore_2.image,(100, 120))
+                        player_arvore_2.image.set_colorkey(BLACK)
 
-                if event.key == pygame.K_RIGHT:
+                        galho = Galho(tronco2.rect.x)
+                        all_sprites.add(galho)
+                        galhos.add(galho)
 
-                    player_arvore_2.image = pygame.image.load(path.join(img_dir,'posicao3-Invertido.png')).convert()
-                    player_arvore_2.image = pygame.transform.scale(player_arvore_2.image,(100, 120))
-                    player_arvore_2.image.set_colorkey(BLACK)
+                        player_arvore_2.rect.x = 510
+                        galho.speedy = 1  
 
-                    galho = Galho(tronco2.rect.x)
-                    all_sprites.add(galho)
-                    galhos.add(galho)
+                    if event.key == pygame.K_a:
+                        
+                        player_arvore_1.image = pygame.image.load(path.join(img_dir,'posicao3.png')).convert()
+                        player_arvore_1.image = pygame.transform.scale(player_arvore_1.image,(100, 120))
+                        player_arvore_1.image.set_colorkey(BLACK)
 
-                    player_arvore_2.rect.x = 510
-                    galho.speedy = 1  
+                        galho = Galho(tronco1.rect.x)
+                        all_sprites.add(galho)
+                        galhos.add(galho)
 
-                if event.key == pygame.K_a:
-                    
-                    player_arvore_1.image = pygame.image.load(path.join(img_dir,'posicao3.png')).convert()
-                    player_arvore_1.image = pygame.transform.scale(player_arvore_1.image,(100, 120))
-                    player_arvore_1.image.set_colorkey(BLACK)
+                        player_arvore_1.rect.x = 30
+                        galho.speedy = 1
 
-                    galho = Galho(tronco1.rect.x)
-                    all_sprites.add(galho)
-                    galhos.add(galho)
+                    if event.key == pygame.K_d:
 
-                    player_arvore_1.rect.x = 30
-                    galho.speedy = 1
+                        player_arvore_1.image = pygame.image.load(path.join(img_dir,'posicao3-Invertido.png')).convert()
+                        player_arvore_1.image = pygame.transform.scale(player_arvore_1.image,(100, 120))
+                        player_arvore_1.image.set_colorkey(BLACK)
 
-                if event.key == pygame.K_d:
+                        galho = Galho(tronco1.rect.x)
+                        all_sprites.add(galho)
+                        galhos.add(galho)
 
-                    player_arvore_1.image = pygame.image.load(path.join(img_dir,'posicao3-Invertido.png')).convert()
-                    player_arvore_1.image = pygame.transform.scale(player_arvore_1.image,(100, 120))
-                    player_arvore_1.image.set_colorkey(BLACK)
-
-                    galho = Galho(tronco1.rect.x)
-                    all_sprites.add(galho)
-                    galhos.add(galho)
-
-                    player_arvore_1.rect.x= 190
-                    galho.speedy = 1
+                        player_arvore_1.rect.x= 190
+                        galho.speedy = 1
             
             # Verifica se soltou alguma tecla.
             if event.type == pygame.KEYUP:
@@ -328,20 +345,29 @@ try:
                     player_arvore_1.speedx = 0
                     score_player1+=1
         
-        
 
         # Atualiza a acao de cada sprite.
         all_sprites.update()
 
-        # Verifica se houve colisão entre tiro e meteoro
-        hits = pygame.sprite.spritecollide(player_arvore_1, galhos, False, pygame.sprite.collide_mask)
-        if hits:
-           player_arvore_1.kill()
+        if state == PLAYING:
+            # Verifica se houve colisão entre tiro e meteoro
+            hits = pygame.sprite.spritecollide(player_arvore_1, galhos, False, pygame.sprite.collide_mask)
+            if hits:
+               vida_player_1 -=1
+               player_arvore_1.kill()
 
-        hits = pygame.sprite.spritecollide(player_arvore_2, galhos, False, pygame.sprite.collide_mask)
-        if hits:
-            player_arvore_2.kill()
-        
+            hits = pygame.sprite.spritecollide(player_arvore_2, galhos, False, pygame.sprite.collide_mask)
+            if hits:
+                vida_player_2 -=1
+                player_arvore_2.kill()
+        else:
+            if lives == 0:
+                state = DONE
+            else:
+                state = PLAYING
+                player_arvore_1 = Lenhador(65)
+                player_arvore_2 = Lenhador(500)
+                all_sprites.add(player_arvore_1,player_arvore_2)     
 
          # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)
@@ -358,6 +384,17 @@ try:
         text_rect2.midtop = (480,  10)
         screen.blit(text_surface_arvore1, text_rect1)
         screen.blit(text_surface_arvore2, text_rect2)
+
+        # Desenha as vidas
+        text_surface_arvore1 = score_font.render(chr(9829) * vida_player_1, True, RED)
+        text_surface_arvore2 = score_font.render(chr(9839) * vida_player_2, True, RED)
+        text_rect1 = text_surface_arvore1.get_rect()
+        text_rect2 = text_surface_arvore2.get_rect()        
+        text_rect1.bottomleft = (110, HEIGHT - 330)
+        text_rect2.bottomleft = (430, HEIGHT - 330)
+        screen.blit(text_surface_arvore1, text_rect1)
+        screen.blit(text_surface_arvore2, text_rect2)
+
 
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()
