@@ -220,10 +220,11 @@ players = pygame.sprite.Group()
 players.add(player_arvore_1,player_arvore_2)
 
 # Cria um grupo de sprites e adiciona a nave.
-all_sprites = pygame.sprite.Group()
-all_sprites.add(player_arvore_1,player_arvore_2,tronco1,tronco2)
+all_sprites_1 = pygame.sprite.Group()
+all_sprites_1.add(player_arvore_1,tronco1)
 
-
+all_sprites_2 = pygame.sprite.Group()
+all_sprites_2.add(player_arvore_2,tronco2)
 try:
 
     score_player1=0
@@ -242,7 +243,8 @@ try:
         # Ajusta a velocidade do jogo.
         #clock.tick(FPS)
         
-        desce = False
+        desce_arvore_1 = False
+        desce_arvore_2 = False
         if state == PLAYING:
             # Processa os eventos (mouse, teclado, botão, etc).
             for event in pygame.event.get(): 
@@ -257,57 +259,57 @@ try:
 
                     # Dependendo da tecla, altera a velocidade.
                     if event.key == pygame.K_LEFT:
-                        desce = True
+                        desce_arvore_2 = True
                         player_arvore_2.image = pygame.image.load(path.join(img_dir,'posicao3.png')).convert()
                         player_arvore_2.image = pygame.transform.scale(player_arvore_2.image,(100, 120))
                         player_arvore_2.image.set_colorkey(BLACK)
 
                         galho = Galho(tronco2.rect.x)
-                        all_sprites.add(galho)
+                        all_sprites_2.add(galho)
                         galhos.add(galho)
 
                         player_arvore_2.rect.x = 350
-                        galho.speedy=70
+                        galho.speedy +=48
                     
 
                     if event.key == pygame.K_RIGHT:
-
+                        desce_arvore_2 = True
                         player_arvore_2.image = pygame.image.load(path.join(img_dir,'posicao3-Invertido.png')).convert()
                         player_arvore_2.image = pygame.transform.scale(player_arvore_2.image,(100, 120))
                         player_arvore_2.image.set_colorkey(BLACK)
 
                         galho = Galho(tronco2.rect.x)
-                        all_sprites.add(galho)
+                        all_sprites_2.add(galho)
                         galhos.add(galho)
 
                         player_arvore_2.rect.x = 510
-                        galho.speedy = 1
+                        galho.speedy+=48
 
                     if event.key == pygame.K_a:
-                        
+                        desce_arvore_1 = True
                         player_arvore_1.image = pygame.image.load(path.join(img_dir,'posicao3.png')).convert()
                         player_arvore_1.image = pygame.transform.scale(player_arvore_1.image,(100, 120))
                         player_arvore_1.image.set_colorkey(BLACK)
 
                         galho = Galho(tronco1.rect.x)
-                        all_sprites.add(galho)
+                        all_sprites_1.add(galho)
                         galhos.add(galho)
 
                         player_arvore_1.rect.x = 30
-                        galho.speedy = 1
+                        galho.speedy+=48
 
                     if event.key == pygame.K_d:
-
+                        desce_arvore_1 = True
                         player_arvore_1.image = pygame.image.load(path.join(img_dir,'posicao3-Invertido.png')).convert()
                         player_arvore_1.image = pygame.transform.scale(player_arvore_1.image,(100, 120))
                         player_arvore_1.image.set_colorkey(BLACK)
 
                         galho = Galho(tronco1.rect.x)
-                        all_sprites.add(galho)
+                        all_sprites_1.add(galho)
                         galhos.add(galho)
 
                         player_arvore_1.rect.x= 190
-                        galho.speedy = 1
+                        galho.speedy+=48
             
             # Verifica se soltou alguma tecla.
             if event.type == pygame.KEYUP:
@@ -354,9 +356,13 @@ try:
         
 
         # Atualiza a acao de cada sprite.
-        if desce:
-            all_sprites.update()
-            desce = False
+        if desce_arvore_1:
+            all_sprites_1.update()
+            desce_arvore_1 = False
+
+        if desce_arvore_2:
+            all_sprites_2.update()
+            desce_arvore_2 = False
 
         if state == PLAYING:
             # Verifica se houve colisão entre tiro e meteoro
@@ -381,15 +387,16 @@ try:
             
             else:
                 state = PLAYING
-                palyer_arvore_1 = Lenhador(65)
+                player_arvore_1 = Lenhador(65)
                 player_arvore_2 = Lenhador(500)
-                all_sprites.add(player_arvore_1,player_arvore_2)     
+                all_sprites_1.add(player_arvore_1)
+                all_sprites_2.add(player_arvore_2)     
 
          # A cada loop, redesenha o fundo e os sprites
         screen.fill(BLACK)
         screen.blit(background, background_rect)
-        all_sprites.draw(screen)
-        
+        all_sprites_1.draw(screen)
+        all_sprites_2.draw(screen)
        
         # Desenha o score
         text_surface_arvore1 = score_font.render("{:02d}".format(score_player1), True, YELLOW)
