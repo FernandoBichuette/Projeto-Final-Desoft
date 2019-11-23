@@ -16,7 +16,7 @@ fnt_dir = path.join(path.dirname(__file__), 'font')
 
 WIDTH = 640
 HEIGHT = 400
-FPS = 100
+FPS = 60
 
 BLACK = (0, 0, 0)
 WHITE = (255,255,255)
@@ -163,6 +163,7 @@ class Galho(pygame.sprite.Sprite):
         self.speedy = 0     
 
         self.rect.y = HEIGHT - 350
+  
         # Centraliza embaixo da tela.
         self.img_referencia = self.image    
 
@@ -232,15 +233,16 @@ try:
     vida_player_2 = 3
 
     PLAYING = 0
-    EXPLODING = 1
+    COLISAO = 1
     DONE = 2
 
     state = PLAYING
     while state != DONE:
         
         # Ajusta a velocidade do jogo.
-        clock.tick(FPS)
+        #clock.tick(FPS)
         
+        desce = False
         if state == PLAYING:
             # Processa os eventos (mouse, teclado, botão, etc).
             for event in pygame.event.get(): 
@@ -252,9 +254,10 @@ try:
                 # Verifica se a tecla foi apertado 
                 if event.type == pygame.KEYDOWN:
 
+
                     # Dependendo da tecla, altera a velocidade.
                     if event.key == pygame.K_LEFT:
-                        
+                        desce = True
                         player_arvore_2.image = pygame.image.load(path.join(img_dir,'posicao3.png')).convert()
                         player_arvore_2.image = pygame.transform.scale(player_arvore_2.image,(100, 120))
                         player_arvore_2.image.set_colorkey(BLACK)
@@ -264,7 +267,7 @@ try:
                         galhos.add(galho)
 
                         player_arvore_2.rect.x = 350
-                        galho.speedy = 1
+                        galho.speedy=70
                     
 
                     if event.key == pygame.K_RIGHT:
@@ -278,7 +281,7 @@ try:
                         galhos.add(galho)
 
                         player_arvore_2.rect.x = 510
-                        galho.speedy = 1  
+                        galho.speedy = 1
 
                     if event.key == pygame.K_a:
                         
@@ -316,6 +319,7 @@ try:
                     player_arvore_2.image.set_colorkey(BLACK)
 
                     player_arvore_2.speedx = 0
+                    
                     score_player2+=1
 
                 if event.key == pygame.K_RIGHT:
@@ -325,6 +329,7 @@ try:
                     player_arvore_2.image.set_colorkey(BLACK)
                     
                     player_arvore_2.speedx = 0
+                    
                     score_player2+=1
 
                 if event.key == pygame.K_a:
@@ -334,6 +339,7 @@ try:
                     player_arvore_1.image.set_colorkey(BLACK)
 
                     player_arvore_1.speedx = 0
+                    
                     score_player1+=1
 
                 if event.key == pygame.K_d:
@@ -343,11 +349,14 @@ try:
                     player_arvore_1.image.set_colorkey(BLACK)
 
                     player_arvore_1.speedx = 0
+                    
                     score_player1+=1
         
 
         # Atualiza a acao de cada sprite.
-        all_sprites.update()
+        if desce:
+            all_sprites.update()
+            desce = False
 
         if state == PLAYING:
             # Verifica se houve colisão entre tiro e meteoro
@@ -355,17 +364,24 @@ try:
             if hits:
                vida_player_1 -=1
                player_arvore_1.kill()
+               state = COLISAO
+               
 
             hits = pygame.sprite.spritecollide(player_arvore_2, galhos, False, pygame.sprite.collide_mask)
             if hits:
                 vida_player_2 -=1
                 player_arvore_2.kill()
-        else:
-            if lives == 0:
+                state = COLISAO
+                
+        
+        elif state == COLISAO:
+            
+            if vida_player_1 == 0 or vida_player_2 == 0:
                 state = DONE
+            
             else:
                 state = PLAYING
-                player_arvore_1 = Lenhador(65)
+                palyer_arvore_1 = Lenhador(65)
                 player_arvore_2 = Lenhador(500)
                 all_sprites.add(player_arvore_1,player_arvore_2)     
 
@@ -387,7 +403,7 @@ try:
 
         # Desenha as vidas
         text_surface_arvore1 = score_font.render(chr(9829) * vida_player_1, True, RED)
-        text_surface_arvore2 = score_font.render(chr(9839) * vida_player_2, True, RED)
+        text_surface_arvore2 = score_font.render(chr(9829) * vida_player_2, True, RED)
         text_rect1 = text_surface_arvore1.get_rect()
         text_rect2 = text_surface_arvore2.get_rect()        
         text_rect1.bottomleft = (110, HEIGHT - 330)
