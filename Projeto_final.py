@@ -225,6 +225,10 @@ all_sprites_1.add(player_arvore_1,tronco1)
 
 all_sprites_2 = pygame.sprite.Group()
 all_sprites_2.add(player_arvore_2,tronco2)
+
+
+
+
 try:
 
     score_player1=0
@@ -270,7 +274,7 @@ try:
 
                         player_arvore_2.rect.x = 350
                         galho.speedy +=48
-                    
+                        score_player2+=1
 
                     if event.key == pygame.K_RIGHT:
                         desce_arvore_2 = True
@@ -284,6 +288,7 @@ try:
 
                         player_arvore_2.rect.x = 510
                         galho.speedy+=48
+                        score_player2+=1
 
                     if event.key == pygame.K_a:
                         desce_arvore_1 = True
@@ -297,6 +302,7 @@ try:
 
                         player_arvore_1.rect.x = 30
                         galho.speedy+=48
+                        score_player1+=1
 
                     if event.key == pygame.K_d:
                         desce_arvore_1 = True
@@ -310,6 +316,7 @@ try:
 
                         player_arvore_1.rect.x= 190
                         galho.speedy+=48
+                        score_player1+=1
             
             # Verifica se soltou alguma tecla.
             if event.type == pygame.KEYUP:
@@ -322,7 +329,7 @@ try:
 
                     player_arvore_2.speedx = 0
                     
-                    score_player2+=1
+                    
 
                 if event.key == pygame.K_RIGHT:
 
@@ -332,7 +339,7 @@ try:
                     
                     player_arvore_2.speedx = 0
                     
-                    score_player2+=1
+                    
 
                 if event.key == pygame.K_a:
 
@@ -342,7 +349,7 @@ try:
 
                     player_arvore_1.speedx = 0
                     
-                    score_player1+=1
+                    
 
                 if event.key == pygame.K_d:
 
@@ -352,7 +359,7 @@ try:
 
                     player_arvore_1.speedx = 0
                     
-                    score_player1+=1
+                   
         
 
         # Atualiza a acao de cada sprite.
@@ -382,9 +389,15 @@ try:
         
         elif state == COLISAO:
             
-            if vida_player_1 == 0 or vida_player_2 == 0:
+            if vida_player_1 == 0:
                 state = DONE
+
             
+
+            elif  vida_player_2 == 0:
+                state = DONE
+
+
             else:
                 state = PLAYING
                 player_arvore_1 = Lenhador(65)
@@ -418,6 +431,7 @@ try:
         screen.blit(text_surface_arvore1, text_rect1)
         screen.blit(text_surface_arvore2, text_rect2)
 
+        
 
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()
