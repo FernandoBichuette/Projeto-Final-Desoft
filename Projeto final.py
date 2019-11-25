@@ -348,6 +348,7 @@ try:
 
         # Atualiza a acao de cada sprite.
         all_sprites.update()
+        
 
         if state == PLAYING:
             # Verifica se houve colisão entre tiro e meteoro
