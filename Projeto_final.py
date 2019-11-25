@@ -344,10 +344,10 @@ try:
             all_sprites_2.update()
             desce_arvore_2 = False
 
-        if score_player1 >=35:
+        if score_player1 >=50:
             state = DONE
  
-        if score_player2 >=35:
+        if score_player2 >=50:
             state = DONE
 
         if state == PLAYING:
