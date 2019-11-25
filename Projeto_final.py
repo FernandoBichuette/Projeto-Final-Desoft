@@ -335,10 +335,7 @@ try:
         
 
         # Atualiza a acao de cada sprite.
-<<<<<<< HEAD:Projeto final.py
-        all_sprites.update()
         
-=======
         if desce_arvore_1:
             all_sprites_1.update()
             desce_arvore_1 = False
@@ -352,7 +349,6 @@ try:
  
         if score_player2 >=35:
             state = DONE
->>>>>>> ab6c6a64515e6cbe8e48eda398cd392c2f5c712c:Projeto_final.py
 
         if state == PLAYING:
             # Verifica se houve colisão entre tiro e meteoro
