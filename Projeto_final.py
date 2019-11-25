@@ -24,8 +24,7 @@ GRAY = (169, 169, 169)
 YELLOW = (255, 255, 0)
 RED = (255, 0, 0)
 
-TAXA_VIDA = 200
-SAUDE = 100
+
 
 class Lenhador(pygame.sprite.Sprite):
     
@@ -69,30 +68,6 @@ class Lenhador(pygame.sprite.Sprite):
         self.rect.x += self.velocidade
         self.pontos+=self.score
 
-
-class Barra_de_vida(pygame.sprite.Sprite):
-    def __init__(self,distancia):
-        pygame.sprite.Sprite.__init__(self)
-
-        self.SAUDE = SAUDE
-        self.image = pygame.image.load(path.join(img_dir,'Barra de vida.png')).convert()
-        self.image = pygame.transform.scale(self.image,(self.SAUDE,20))
-        self.image.set_colorkey(BLACK)
-
-        self.rect = self.image.get_rect()
-        self.rect.x = distancia
-        self.rect.y = HEIGHT - 350
-
-        self.regen = 1
-
-    def update(self):
-        if self.SAUDE >= 100:
-            self.regen = -5
-        self.SAUDE += self.regen
-        if self.SAUDE < 0:
-            self.SAUDE = 0
-        self.image = pygame.transform.scale(self.image,(self.SAUDE,20))
-        self.regen = 0
 
 
 class Tronco(pygame.sprite.Sprite):
@@ -182,7 +157,7 @@ def load_assets(img_dir, fnt_dir):
         
 # Inicialização do Pygame.
 pygame.init()
-pygame.mixer.init()
+
 
 # Tamanho da tela.
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -209,9 +184,6 @@ player_arvore_2 = Lenhador(500)
 tronco1 = Tronco(160)
 tronco2 = Tronco(480)
 
-#barra de vida
-#vida_player_1 = Barra_de_vida(110)
-#vida_player_2 = Barra_de_vida(430)
 
 # Cria um grupo para os galhos e player
 galhos = pygame.sprite.Group()
@@ -370,6 +342,12 @@ try:
         if desce_arvore_2:
             all_sprites_2.update()
             desce_arvore_2 = False
+
+        if score_player1 >=35:
+            state = DONE
+ 
+        if score_player2 >=35:
+            state = DONE
 
         if state == PLAYING:
             # Verifica se houve colisão entre tiro e meteoro
