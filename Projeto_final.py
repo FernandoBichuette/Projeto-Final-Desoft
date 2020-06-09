@@ -11,13 +11,13 @@ import time
 from os import path
 import math
 
+
 img_dir = path.join(path.dirname(__file__), 'img')
 fnt_dir = path.join(path.dirname(__file__), 'font')
 
 WIDTH = 640
 HEIGHT = 400
 FPS = 60
-
 BLACK = (0, 0, 0)
 WHITE = (255,255,255)
 GRAY = (169, 169, 169)
@@ -321,7 +321,6 @@ try:
 
                     player_arvore_1.speedx = 0
                     
-                    
 
                 if event.key == pygame.K_d:
 
@@ -332,8 +331,6 @@ try:
                     player_arvore_1.speedx = 0
                     
                    
-        
-
         # Atualiza a acao de cada sprite.
         
         if desce_arvore_1:
@@ -410,7 +407,7 @@ try:
         screen.blit(text_surface_arvore1, text_rect1)
         screen.blit(text_surface_arvore2, text_rect2)
 
-        
+
 
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()
